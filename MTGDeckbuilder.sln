@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTGDeckbuilder", "MTGDeckbuilder\MTGDeckbuilder.csproj", "{C507AB32-F989-43E2-ACF5-52EE27791AAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MTGTestProject", "MTGTestProject\MTGTestProject.csproj", "{97C38CF6-BB18-4949-8EA1-41645829048B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C507AB32-F989-43E2-ACF5-52EE27791AAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C507AB32-F989-43E2-ACF5-52EE27791AAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C507AB32-F989-43E2-ACF5-52EE27791AAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C38CF6-BB18-4949-8EA1-41645829048B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C38CF6-BB18-4949-8EA1-41645829048B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C38CF6-BB18-4949-8EA1-41645829048B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C38CF6-BB18-4949-8EA1-41645829048B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
