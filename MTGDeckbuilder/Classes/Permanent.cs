@@ -11,7 +11,7 @@ namespace MTGDeckbuilder.Classes
         int Power { get; set; }
         int Toughness { get; set; }
 
-        public Permanent(string name, string color, string colorIdentity, string cost, string type, Rarity rarity, string text, string flavorText, int power, int toughness) : base(name, color, colorIdentity, cost, type, rarity, text, flavorText)
+        public Permanent(string name, string color, string colorIdentity, string cost, int cmc, string type, Rarity rarity, string text, string flavorText, int power, int toughness) : base(name, color, colorIdentity, cost, cmc, type, rarity, text, flavorText)
         {
             Power = power;
             Toughness = toughness;

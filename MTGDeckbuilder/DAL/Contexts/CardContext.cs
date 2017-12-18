@@ -10,6 +10,13 @@ namespace MTGDeckbuilder.DAL.Contexts
 {
     class CardContext : ICardContext
     {
+        IDatabaseConnector connector;
+
+        public CardContext()
+        {
+            connector = new SQLServerConnector();
+        }
+
         public List<Card> FetchAllCards()
         {
             throw new NotImplementedException();

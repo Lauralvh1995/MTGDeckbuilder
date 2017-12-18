@@ -5,11 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MTGDeckbuilder.Classes;
+using System.Data.SqlClient;
 
 namespace MTGDeckbuilder.DAL.Contexts
 {
     class DeckContext : IDeckContext
     {
+        IDatabaseConnector connector;
+
+        public DeckContext()
+        {
+            connector = new SQLServerConnector();
+        }
+
         public void AddCardToDeck(Deck deck, Card card)
         {
             throw new NotImplementedException();

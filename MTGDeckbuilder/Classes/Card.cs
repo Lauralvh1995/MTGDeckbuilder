@@ -27,7 +27,7 @@ namespace MTGDeckbuilder.Classes
         string Text { get; set; }
         string FlavorText { get; set; }
 
-        public Card(string name, string color, string colorIdentity, string cost,  string type, Rarity rarity, string text, string flavorText)
+        public Card(string name, string color, string colorIdentity, string cost, int cmc, string type, Rarity rarity, string text, string flavorText)
         {
             Name = name;
             Color = color;
@@ -38,12 +38,7 @@ namespace MTGDeckbuilder.Classes
             FlavorText = flavorText;
 
             ColorIdentity = colorIdentity;
-            ConvertedManaCost = CalculateCMC();
-        }
-
-        int CalculateCMC()
-        {
-            throw new NotImplementedException();
+            ConvertedManaCost = cmc;
         }
     }
 }
