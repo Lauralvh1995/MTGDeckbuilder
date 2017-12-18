@@ -22,24 +22,22 @@ namespace MTGDeckbuilder.Classes
         string ColorIdentity { get; set; }
         string Cost { get; set; }
         int ConvertedManaCost { get; set; }
-        string SuperType { get; set; }
         string Type { get; set; }
-        string SubType { get; set; }
         Rarity Rarity { get; set; }
         string Text { get; set; }
+        string FlavorText { get; set; }
 
-        public Card(string name, string color, string cost, string superType, string type, string subType, Rarity rarity, string text)
+        public Card(string name, string color, string colorIdentity, string cost,  string type, Rarity rarity, string text, string flavorText)
         {
             Name = name;
             Color = color;
             Cost = cost;
-            SuperType = superType;
             Type = type;
-            SubType = subType;
             Rarity = rarity;
             Text = text;
+            FlavorText = flavorText;
 
-            ColorIdentity = Color; //+ manasymbols in Text (not remindertext)
+            ColorIdentity = colorIdentity;
             ConvertedManaCost = CalculateCMC();
         }
 

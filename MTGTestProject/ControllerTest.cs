@@ -17,9 +17,11 @@ namespace MTGTestProject
         }
 
         [TestMethod]
-        public void TestSaveDeck()
+        public void TestDeleteDeck()
         {
-
+            control.CreateDeck("Test");
+            control.DeleteDeck("Test");
+            Assert.AreEqual(0, control.decks.Count);
         }
     }
 }

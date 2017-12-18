@@ -47,12 +47,19 @@ namespace MTGDeckbuilder.Classes
 
         public void LoadDeck(string name)
         {
-            throw new NotImplementedException();
+            //CurrentDeck = db.SearchDeck(name);
         }
 
         public void DeleteDeck(string name)
         {
-            throw new NotImplementedException();
+            foreach (Deck deck in decks.ToList())
+            {
+                if (deck.ToString() == CurrentDeck.ToString())
+                {
+                    decks.Remove(deck);
+                    //delete from database
+                }
+            }
         }
     }
 }
