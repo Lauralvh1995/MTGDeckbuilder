@@ -8,6 +8,7 @@ namespace MTGTestProject
     public class ControllerTest
     {
         Controller control = new Controller();
+
         [TestMethod]
         public void TestCreateDeck()
         {
