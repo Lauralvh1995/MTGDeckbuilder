@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MTGDeckbuilder.DAL.Interfaces
+namespace MTGDeckbuilder.DAL
 {
-    interface ICardContext
+    interface IStore
     {
+        //Cards
         List<Card> SearchCardsByName(string name);
         List<Card> SearchCardsByColor(string color);
         List<Card> SearchCardsbyExclusiveColor(string color);
@@ -20,5 +21,12 @@ namespace MTGDeckbuilder.DAL.Interfaces
         List<Card> SearchCardsByToughness(int toughness);
         Card GetCard(string name);
         List<Card> FetchAllCards();
+
+        //Decks
+        void SaveDeck(Deck deck);
+        Deck LoadDeck(string name);
+        void DeleteDeck(Deck deck);
+        void AddCardToDeck(Deck deck, Card card);
+        void RemoveCardFromDeck(Deck deck, Card card);
     }
 }

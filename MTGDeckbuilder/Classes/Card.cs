@@ -40,5 +40,15 @@ namespace MTGDeckbuilder.Classes
             ColorIdentity = colorIdentity;
             ConvertedManaCost = cmc;
         }
+
+        public string GetType()
+        {
+            return Type;
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

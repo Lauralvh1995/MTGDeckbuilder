@@ -51,15 +51,11 @@
     <Compile Include="Classes\NonPermanent.cs" />
     <Compile Include="Classes\Permanent.cs" />
     <Compile Include="Classes\Planeswalker.cs" />
-    <Compile Include="DAL\Contexts\CardContext.cs" />
-    <Compile Include="DAL\Contexts\DeckContext.cs" />
     <Compile Include="DAL\IDatabaseConnector.cs" />
     <Compile Include="DAL\IDbCommandExtension.cs" />
-    <Compile Include="DAL\Interfaces\ICardContext.cs" />
-    <Compile Include="DAL\Interfaces\IDeckContext.cs" />
-    <Compile Include="DAL\Repositories\CardRepository.cs" />
-    <Compile Include="DAL\Repositories\DeckRepository.cs" />
+    <Compile Include="DAL\IStore.cs" />
     <Compile Include="DAL\SQLServerConnector.cs" />
+    <Compile Include="DAL\SQLStore.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

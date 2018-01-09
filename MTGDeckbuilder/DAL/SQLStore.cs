@@ -1,20 +1,22 @@
-﻿using MTGDeckbuilder.DAL.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MTGDeckbuilder.Classes;
 
-namespace MTGDeckbuilder.DAL.Contexts
+namespace MTGDeckbuilder.DAL
 {
-    class CardContext : ICardContext
+    public class SQLStore : IStore
     {
-        IDatabaseConnector connector;
-
-        public CardContext()
+        public void AddCardToDeck(Deck deck, Card card)
         {
-            connector = new SQLServerConnector();
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDeck(Deck deck)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Card> FetchAllCards()
@@ -23,6 +25,21 @@ namespace MTGDeckbuilder.DAL.Contexts
         }
 
         public Card GetCard(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Deck LoadDeck(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveCardFromDeck(Deck deck, Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveDeck(Deck deck)
         {
             throw new NotImplementedException();
         }

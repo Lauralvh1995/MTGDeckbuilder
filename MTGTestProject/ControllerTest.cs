@@ -7,11 +7,10 @@ namespace MTGTestProject
     [TestClass]
     public class ControllerTest
     {
-        Controller control = new Controller();
-
         [TestMethod]
         public void TestCreateDeck()
         {
+            Controller control = new Controller();
             control.CreateDeck("Test");
             Assert.AreEqual("Test", control.decks[0].ToString());
             Assert.AreEqual(control.decks[0], control.CurrentDeck);
@@ -20,6 +19,7 @@ namespace MTGTestProject
         [TestMethod]
         public void TestDeleteDeck()
         {
+            Controller control = new Controller();
             control.CreateDeck("Test");
             control.DeleteDeck("Test");
             Assert.AreEqual(0, control.decks.Count);

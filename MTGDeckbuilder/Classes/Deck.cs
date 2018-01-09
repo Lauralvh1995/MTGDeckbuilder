@@ -20,19 +20,49 @@ namespace MTGDeckbuilder.Classes
             Complete = false;
         }
 
-        void AddCard(Card card)
+        public void AddCard(Card card)
+        {
+            int checkCount = 0;
+            foreach(Card c in decklist)
+            {
+                if(c.ToString() == card.ToString())
+                {
+                    string[] supertype = card.GetType().Split('-');
+                    if (supertype[0] == "Basic Land")
+                    {
+                        decklist.Add(card);
+                        return;
+                    }
+                    else if(card.ToString() == "Relentless Rats" || card.ToString() == "Shadowborn Apostle")
+                    {
+                        decklist.Add(card);
+                        return;
+                    }
+                    else
+                    {
+                        checkCount++;
+                    }
+                }
+            }
+            if(checkCount < 4)
+            {
+                decklist.Add(card);
+            }
+        }
+
+        public void RemoveCard(Card card)
         {
             throw new NotImplementedException();
         }
 
-        void RemoveCard(Card card)
+        public void CalculateStats()
         {
             throw new NotImplementedException();
         }
 
-        void CalculateStats()
+        public List<Card> GetDeckList()
         {
-            throw new NotImplementedException();
+            return decklist;
         }
 
         public override string ToString()
