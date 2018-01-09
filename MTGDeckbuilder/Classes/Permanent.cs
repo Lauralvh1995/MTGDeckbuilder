@@ -8,13 +8,15 @@ namespace MTGDeckbuilder.Classes
 {
     public class Permanent : Card
     {
-        string Power { get; set; }
-        string Toughness { get; set; }
+        int Power { get; set; }
+        int Toughness { get; set; }
+        int Loyalty { get; set; }
 
-        public Permanent(string name, string color, string colorIdentity, string cost, int cmc, string type, Rarity rarity, string text, string flavorText, string power, string toughness) : base(name, color, colorIdentity, cost, cmc, type, rarity, text, flavorText)
+        public Permanent(string name, string color, string colorIdentity, string cost, int cmc, string type, Rarity rarity, string text, string flavorText, int power, int toughness, int loyalty) : base(name, color, colorIdentity, cost, cmc, type, rarity, text, flavorText)
         {
             Power = power;
             Toughness = toughness;
+            Loyalty = loyalty;
         }
     }
 }

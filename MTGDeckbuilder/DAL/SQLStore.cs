@@ -9,6 +9,13 @@ namespace MTGDeckbuilder.DAL
 {
     public class SQLStore : IStore
     {
+        IDatabaseConnector connector;
+
+        public SQLStore()
+        {
+            connector = new SQLServerConnector();
+        }
+
         public void AddCardToDeck(Deck deck, Card card)
         {
             throw new NotImplementedException();

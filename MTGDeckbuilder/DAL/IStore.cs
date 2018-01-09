@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MTGDeckbuilder.DAL
 {
-    interface IStore
+    public interface IStore
     {
         //Cards
         List<Card> SearchCardsByName(string name);

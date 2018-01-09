@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MTGDeckbuilder.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +12,12 @@ namespace MTGDeckbuilder.Classes
         public Deck CurrentDeck;
         public List<Deck> decks;
 
+        private IStore store;
         public Controller()
         {
+            store = new SQLStore();
             decks = new List<Deck>();
         }
-
         public void CreateDeck(string name)
         {
             Deck deck = new Deck(name);
@@ -37,17 +39,17 @@ namespace MTGDeckbuilder.Classes
             if (check == 0)
             {
                 decks.Add(CurrentDeck);
-                //stuur naar Database
+                store.SaveDeck(CurrentDeck);
             }
             else
             {
-                //stuur changes naar Database
+                store.SaveDeck(CurrentDeck);
             }
         }
 
         public void LoadDeck(string name)
         {
-            //CurrentDeck = db.SearchDeck(name);
+            CurrentDeck = store.LoadDeck(name);
         }
 
         public void DeleteDeck(string name)
@@ -57,7 +59,7 @@ namespace MTGDeckbuilder.Classes
                 if (deck.ToString() == CurrentDeck.ToString())
                 {
                     decks.Remove(deck);
-                    //delete from database
+                    store.DeleteDeck(deck);
                 }
             }
         }

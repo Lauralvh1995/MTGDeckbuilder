@@ -31,11 +31,13 @@ namespace MTGDeckbuilder.Classes
                     if (supertype[0] == "Basic Land")
                     {
                         decklist.Add(card);
+                        CheckComplete();
                         return;
                     }
                     else if(card.ToString() == "Relentless Rats" || card.ToString() == "Shadowborn Apostle")
                     {
                         decklist.Add(card);
+                        CheckComplete();
                         return;
                     }
                     else
@@ -48,11 +50,20 @@ namespace MTGDeckbuilder.Classes
             {
                 decklist.Add(card);
             }
+            CheckComplete();
         }
 
         public void RemoveCard(Card card)
         {
-            throw new NotImplementedException();
+            foreach(Card c in decklist.ToList())
+            {
+                if(c == card)
+                {
+                    decklist.Remove(c);
+                    return;
+                }
+            }
+            CheckComplete();
         }
 
         public void CalculateStats()
@@ -63,6 +74,18 @@ namespace MTGDeckbuilder.Classes
         public List<Card> GetDeckList()
         {
             return decklist;
+        }
+
+        void CheckComplete()
+        {
+            if(decklist.Count >= 60)
+            {
+                Complete = true;
+            }
+            else
+            {
+                Complete = false;
+            }
         }
 
         public override string ToString()
