@@ -20,8 +20,8 @@ namespace MTGTestProject
         public void TestDeleteDeck()
         {
             Controller control = new Controller();
-            control.CreateDeck("Test");
-            control.DeleteDeck("Test");
+            control.CreateDeck("Test2");
+            control.DeleteDeck("Test2");
             Assert.AreEqual(0, control.decks.Count);
         }
     }

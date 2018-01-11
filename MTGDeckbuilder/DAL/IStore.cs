@@ -28,5 +28,6 @@ namespace MTGDeckbuilder.DAL
         void DeleteDeck(Deck deck);
         void AddCardToDeck(Deck deck, Card card);
         void RemoveCardFromDeck(Deck deck, Card card);
+        void SetComplete(Deck deck, bool set);
     }
 }

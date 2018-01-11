@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MTGDeckbuilder.Classes;
+using MTGDeckbuilder.DAL;
 
 namespace MTGTestProject
 {
@@ -10,8 +11,14 @@ namespace MTGTestProject
         [TestMethod]
         public void AddCardTest()
         {
-            Deck deck = new Deck("Test");
-            deck.AddCard(new Permanent("Llanowar Elves", "G", "G", "G", 1, "Creature - Elf Warrior", Rarity.Common, "T: Add G to your mana pool", "One bone broken for every twig snapped underfoot.", 1, 1, 0));
+            Controller control = new Controller();
+            IStore store = new SQLStore();
+            control.CreateDeck("Test3");
+            Card card = store.GetCard("Forest");
+            Deck deck = control.decks[0];
+
+            deck.AddCard(card);
+
             Assert.AreEqual(deck.GetDeckList()[0].ToString(), "Llanowar Elves");
         }
     }

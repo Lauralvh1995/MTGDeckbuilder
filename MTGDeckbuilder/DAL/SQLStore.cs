@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MTGDeckbuilder.Classes;
+using System.Data;
 
 namespace MTGDeckbuilder.DAL
 {
@@ -18,17 +19,51 @@ namespace MTGDeckbuilder.DAL
 
         public void AddCardToDeck(Deck deck, Card card)
         {
-            throw new NotImplementedException();
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "INSERT INTO [deckList] ([deckID], [cardID]) VALUES (@deck, @card);";
+            command.AddParameterWithValue("deck", deck.GetID());
+            command.AddParameterWithValue("card", card.GetID());
+
+            connector.ExecuteNonQuery(command);
         }
 
         public void DeleteDeck(Deck deck)
         {
-            throw new NotImplementedException();
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "UPDATE [DECK] SET [Active]=@active WHERE [ID]=@id;";
+            command.AddParameterWithValue("active", false);
+            command.AddParameterWithValue("id", deck.GetID());
+
+            connector.ExecuteNonQuery(command);
         }
 
         public List<Card> FetchAllCards()
         {
-            throw new NotImplementedException();
+            List<Card> cards = new List<Card>();
+
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "SELECT * " +
+                                    "FROM [mtgcard] " +
+                                    "JOIN [cardColor] ON mtgcard.ID = cardColor.cardID" +
+                                    "JOIN [color] ON cardColor.colorCode = color.code;" +
+                                    "JOIN [cardColorIdentity] ON mtgcard.ID = cardColorIdentity.cardID" +
+                                    "JOIN [cardTypeCard] ON mtgcard.ID = cardTypeCard.cardID" +
+                                    "JOIN [cardType] ON cardTypeCard.typeID = cardType.ID";
+
+            using (IDataReader reader = connector.ExecuteReader(command))
+            {
+                while (reader.Read())
+                {
+                    //Card card = new Permanent()
+                    //{
+
+                    //};
+
+                    //cards.Add(card);
+                }
+            }
+
+            return cards;
         }
 
         public Card GetCard(string name)
@@ -48,7 +83,13 @@ namespace MTGDeckbuilder.DAL
 
         public void SaveDeck(Deck deck)
         {
-            throw new NotImplementedException();
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "INSERT INTO [Deck] (name, active, completed) VALUES (@deck, @active, @complete);";
+            command.AddParameterWithValue("deck", deck.ToString());
+            command.AddParameterWithValue("active", true);
+            command.AddParameterWithValue("complete", false);
+
+            connector.ExecuteNonQuery(command);
         }
 
         public List<Card> SearchCardsByColor(string color)
@@ -94,6 +135,16 @@ namespace MTGDeckbuilder.DAL
         public List<Card> SearchCardsByToughness(int toughness)
         {
             throw new NotImplementedException();
+        }
+
+        public void SetComplete(Deck deck, bool set)
+        {
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "UPDATE [DECK] SET [Complete]=@complete WHERE [ID]=@id;";
+            command.AddParameterWithValue("complete", set);
+            command.AddParameterWithValue("id", deck.GetID());
+
+            connector.ExecuteNonQuery(command);
         }
     }
 }

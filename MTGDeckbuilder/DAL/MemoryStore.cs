@@ -92,5 +92,9 @@ namespace MTGDeckbuilder.DAL
         {
             throw new NotImplementedException();
         }
+        public void SetComplete(Deck deck, bool set)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
