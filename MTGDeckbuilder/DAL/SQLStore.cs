@@ -19,7 +19,7 @@ namespace MTGDeckbuilder.DAL
         {
             connector = new SQLServerConnector();
             allcards = FetchAllCards();
-            alldecks = GetAllDecks();
+            alldecks =  new List<Deck>();/*GetAllDecks();*/
         }
 
         public void AddCardToDeck(Deck deck, Card card)

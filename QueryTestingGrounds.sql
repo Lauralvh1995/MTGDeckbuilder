@@ -33,3 +33,7 @@ WHERE cardRarity.cardID = 131
 SELECT rarity.code FROM cardRarity JOIN rarity ON cardRarity.rarity = rarity.code WHERE cardRarity.cardID = 1
 
 SELECT * FROM Deck WHERE active=1
+
+SELECT mtgCard.name
+FROM mtgcard JOIN deckList ON mtgCard.id = deckList.CardID
+WHERE deckList.DeckID = 1

@@ -19,9 +19,9 @@ namespace MTGDeckbuilder.Classes
         {
             store = new SQLStore();
             allCards = store.FetchAllCards();
-            decks = LoadAllDecks();
+            decks = new List<Deck>();
             searchedCards = allCards;
-            CurrentDeck = decks[0];
+            CreateDeck("dummy");
         }
 
         public void CreateDeck(string name)
