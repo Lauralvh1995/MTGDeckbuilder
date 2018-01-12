@@ -81,6 +81,9 @@ namespace MTGDeckbuilder.Classes
 
         public void CalculateStats()
         {
+            //Dan is dit de enige Must die ik links ga laten liggen.
+            //Tijd tekort gekomen, en teveel problemen gehad met queries, databases en andere zooi.
+            //Ook in de SQLStore werkt niet alles. Errors waar ik niet wijzer uit wordt, ook al gebruik ik de debugger.
             throw new NotImplementedException();
         }
 

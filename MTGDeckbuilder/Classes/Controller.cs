@@ -18,8 +18,8 @@ namespace MTGDeckbuilder.Classes
         public Controller()
         {
             store = new SQLStore();
-            decks = LoadAllDecks();
             allCards = store.FetchAllCards();
+            decks = LoadAllDecks();
             searchedCards = allCards;
             CurrentDeck = decks[0];
         }
@@ -73,6 +73,57 @@ namespace MTGDeckbuilder.Classes
                     store.DeleteDeck(deck);
                 }
             }
+        }
+
+        void SearchCardsByName(string name)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByName(name);
+        }
+        void SearchCardsByColor(string color)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByColor(color);
+        }
+        void SearchCardsbyExclusiveColor(string color)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsbyExclusiveColor(color);
+        }
+        void SearchCardsByManaCost(int cost)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByManaCost(cost);
+        }
+        void SearchCardsByText(string text)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByText(text);
+        }
+        void SearchCardsByFlavorText(string flavortext)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByFlavorText(flavortext);
+        }
+        void SearchCardsByRarity(Rarity rarity)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByRarity(rarity);
+        }
+        void SearchCardsByPower(int power)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByPower(power);
+        }
+        void SearchCardsByToughness(int toughness)
+        {
+            searchedCards.Clear();
+            searchedCards = store.SearchCardsByToughness(toughness);
+        }
+        void GetCard(string name)
+        {
+            searchedCards.Clear();
+            searchedCards.Add(store.GetCard(name));
         }
     }
 }

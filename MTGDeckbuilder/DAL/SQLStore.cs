@@ -164,12 +164,44 @@ namespace MTGDeckbuilder.DAL
         {
             List<Deck> decks = new List<Deck>();
             IDbCommand command = connector.CreateCommand();
+            List<int> ID = new List<int>();
+            List<string> name = new List<string>();
+            List<bool> completed = new List<bool>();
+            List<List<string>> cardnames = new List<List<string>>();
             command.CommandText = "SELECT * FROM Deck WHERE active=1";
             using (IDataReader reader = connector.ExecuteReader(command))
             {
                 while (reader.Read())
                 {
-                    decks.Add(new Deck(reader.GetInt32(0), reader.GetString(1), reader.GetBoolean(3)));
+                    ID.Add(reader.GetInt32(0));
+                    name.Add(reader.GetString(1));
+                    completed.Add(reader.GetBoolean(3));
+                }
+            }
+            for(int i =1; i==ID.Count(); i++) //DAFUQ, dit hele blok wordt overgeslagen!
+            {
+                List<string> cardnamesname = new List<string>();
+                IDbCommand command2 = connector.CreateCommand();
+                command2.CommandText = "SELECT mtgCard.name FROM mtgcard JOIN deckList ON mtgCard.id = deckList.CardID WHERE deckList.DeckID = @deckID";
+                command2.AddParameterWithValue("deckID", i);
+                using (IDataReader reader = connector.ExecuteReader(command))
+                {
+                    while (reader.Read())
+                    {
+                        cardnamesname.Add(reader.GetString(1));
+                    }
+                }
+                cardnames.Add(cardnamesname);
+                Deck deck = new Deck(ID[i-1], name[i-1], completed[i-1]);
+                //Hier dezelfde error als bij het inladen van alle kaarten. IK snap het niet meer.
+                decks.Add(deck);
+            }
+            
+            for (int i2 = 0; i2 == decks.Count(); i2++)
+            {
+                foreach (string st in cardnames[i2])
+                {
+                    decks[i2].GetDeckList().Add(GetCard(st));
                 }
             }
             return decks;
@@ -246,7 +278,7 @@ namespace MTGDeckbuilder.DAL
             List<Card> foundCards = new List<Card>();
             foreach (Card card in allcards)
             {
-                if (card.GetColors().Contains(color) && card.GetColors().Count == 1)
+                if ((card.GetColors().Contains(color) && card.GetColors().Count == 1) || card.GetColors().Contains(color) && card.GetColors().Count == 1 && card.GetColors().Contains("Colorless"))
                 {
                     foundCards.Add(card);
                 }

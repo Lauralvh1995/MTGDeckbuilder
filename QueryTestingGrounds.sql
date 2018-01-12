@@ -1,10 +1,10 @@
-SELECT DISTINCT mtgCard.id, mtgCard.name, mtgCard.rulesText, mtgCard.flavor, cardColor.colorCode as 'Color', cardColorIdentity.colorCode as 'Color Identity'
+SELECT DISTINCT mtgCard.id, mtgCard.name, mtgCard.rulesText, mtgCard.flavor, cardColor.colorCode as 'Color', cardColorIdentity.colorCode as 'Color Identity', cardtype.Name as 'Type'
 FROM mtgcard
 JOIN cardColor ON mtgcard.ID = cardColor.cardID 
 JOIN color ON cardColor.colorCode = color.code
-JOIN CardColorIdentity ON mtgcard.ID = cardColorIdentity.cardID;
---JOIN cardTypeCard ON mtgcard.ID = cardTypeCard.cardID
---JOIN cardType ON cardTypeCard.cardType = cardType.ID
+JOIN CardColorIdentity ON mtgcard.ID = cardColorIdentity.cardID
+JOIN cardTypeCard ON mtgcard.ID = cardTypeCard.cardID
+JOIN cardType ON cardTypeCard.cardType = cardType.ID
 
 select deck.Name, mtgcard.name 
 from deck 
@@ -29,3 +29,7 @@ SELECT ID, mtgCard.name, manacost, converted_manacost, p as 'Power', t as 'Tough
 SELECT rarity.code
 FROM cardRarity JOIN rarity ON cardRarity.rarity = rarity.code
 WHERE cardRarity.cardID = 131
+
+SELECT rarity.code FROM cardRarity JOIN rarity ON cardRarity.rarity = rarity.code WHERE cardRarity.cardID = 1
+
+SELECT * FROM Deck WHERE active=1

@@ -18,9 +18,9 @@ namespace MTGDeckbuilder
         {
             InitializeComponent();
             control = new Controller();
-            liBoxAllCards.DataSource = control.allCards;
-            liBoxAllDecks.DataSource = control.decks;
-            liBoxDecklist.DataSource = control.CurrentDeck.GetDeckList();
+            liBoxAllCards.DataSource = new BindingList<Card>(control.allCards);
+            liBoxAllDecks.DataSource = new BindingList<Deck>(control.decks);
+            liBoxDecklist.DataSource = new BindingList<Card>(control.CurrentDeck.GetDeckList());
             Refresh();
         }
     }
