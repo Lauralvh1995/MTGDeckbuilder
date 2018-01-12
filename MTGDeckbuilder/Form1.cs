@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MTGDeckbuilder.Classes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,11 +11,17 @@ using System.Windows.Forms;
 
 namespace MTGDeckbuilder
 {
-    public partial class Form1 : Form
+    public partial class MTGDeckbuilder : Form
     {
-        public Form1()
+        Controller control;
+        public MTGDeckbuilder()
         {
             InitializeComponent();
+            control = new Controller();
+            liBoxAllCards.DataSource = control.allCards;
+            liBoxAllDecks.DataSource = control.decks;
+            liBoxDecklist.DataSource = control.CurrentDeck.GetDeckList();
+            Refresh();
         }
     }
 }

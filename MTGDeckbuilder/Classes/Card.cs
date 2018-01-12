@@ -75,5 +75,36 @@ namespace MTGDeckbuilder.Classes
         {
             return ID;
         }
+
+        public List<string> GetColors()
+        {
+            return Color;
+        }
+
+        public List<string> GetColorIdentity()
+        {
+            return ColorIdentity;
+        }
+        public List<string> GetTypes()
+        {
+            return Type;
+        }
+
+        public string GetRules()
+        {
+            return Text;
+        }
+        public string GetFlavor()
+        {
+            return FlavorText;
+        }
+        public int GetCost()
+        {
+            return ConvertedManaCost;
+        }
+        public Rarity GetRarity()
+        {
+            return Rarity;
+        }
     }
 }

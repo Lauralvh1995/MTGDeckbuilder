@@ -13,13 +13,13 @@ namespace MTGTestProject
         {
             Controller control = new Controller();
             IStore store = new SQLStore();
-            control.CreateDeck("Test3");
+            control.CreateDeck("Test4");
             Card card = store.GetCard("Forest");
-            Deck deck = control.decks[0];
+            Deck deck = control.decks[7];
 
             deck.AddCard(card);
 
-            Assert.AreEqual(deck.GetDeckList()[0].ToString(), "Llanowar Elves");
+            Assert.AreEqual(deck.GetDeckList()[0].ToString(), "Forest");
         }
     }
 }

@@ -28,6 +28,11 @@ namespace MTGDeckbuilder.DAL
             throw new NotImplementedException();
         }
 
+        public List<Deck> GetAllDecks()
+        {
+            throw new NotImplementedException();
+        }
+
         public Card GetCard(string name)
         {
             throw new NotImplementedException();

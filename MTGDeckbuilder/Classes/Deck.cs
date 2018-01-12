@@ -21,11 +21,24 @@ namespace MTGDeckbuilder.Classes
             Name = name;
             decklist = new List<Card>();
             Complete = false;
+        }
+
+        public Deck(int id, string name, bool complete)
+        {
+            ID = id;
+            Name = name;
+            Complete = complete;
+            decklist = new List<Card>();
+        }
+
+        public void CreateStore()
+        {
             store = new SQLStore();
         }
 
         public void AddCard(Card card)
         {
+            CreateStore();
             int checkCount = 0;
             foreach(Card c in decklist)
             {

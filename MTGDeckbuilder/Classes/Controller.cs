@@ -11,13 +11,19 @@ namespace MTGDeckbuilder.Classes
     {
         public Deck CurrentDeck;
         public List<Deck> decks;
+        public List<Card> allCards;
+        public List<Card> searchedCards;
 
         private IStore store;
         public Controller()
         {
             store = new SQLStore();
-            decks = new List<Deck>();
+            decks = LoadAllDecks();
+            allCards = store.FetchAllCards();
+            searchedCards = allCards;
+            CurrentDeck = decks[0];
         }
+
         public void CreateDeck(string name)
         {
             Deck deck = new Deck(name);
@@ -50,6 +56,11 @@ namespace MTGDeckbuilder.Classes
         public void LoadDeck(string name)
         {
             CurrentDeck = store.LoadDeck(name);
+        }
+
+        public List<Deck> LoadAllDecks()
+        {
+            return store.GetAllDecks();
         }
 
         public void DeleteDeck(string name)

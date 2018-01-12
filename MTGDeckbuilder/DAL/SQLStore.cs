@@ -5,16 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using MTGDeckbuilder.Classes;
 using System.Data;
+using MTGDeckbuilder.Exceptions;
 
 namespace MTGDeckbuilder.DAL
 {
     public class SQLStore : IStore
     {
         IDatabaseConnector connector;
+        List<Card> allcards;
+        List<Deck> alldecks;
 
         public SQLStore()
         {
             connector = new SQLServerConnector();
+            allcards = FetchAllCards();
+            alldecks = GetAllDecks();
         }
 
         public void AddCardToDeck(Deck deck, Card card)
@@ -41,44 +46,171 @@ namespace MTGDeckbuilder.DAL
         {
             List<Card> cards = new List<Card>();
 
-            IDbCommand command = connector.CreateCommand();
-            command.CommandText = "SELECT * " +
-                                    "FROM [mtgcard] " +
-                                    "JOIN [cardColor] ON mtgcard.ID = cardColor.cardID" +
-                                    "JOIN [color] ON cardColor.colorCode = color.code;" +
-                                    "JOIN [cardColorIdentity] ON mtgcard.ID = cardColorIdentity.cardID" +
-                                    "JOIN [cardTypeCard] ON mtgcard.ID = cardTypeCard.cardID" +
-                                    "JOIN [cardType] ON cardTypeCard.typeID = cardType.ID";
+            List<int> cardIDs = new List<int>();
+            List<string> cardNames = new List<string>();
+            List<string> manaCosts = new List<string>();
+            List<int> CMCs = new List<int>();
+            List<int> Ps = new List<int>();
+            List<int> Ts = new List<int>();
+            List<int> Ls = new List<int>();
+            List<string> rules = new List<string>();
+            List<string> flavor = new List<string>();
+            List<string> artist = new List<string>();
+            List<string> generatedMana = new List<string>();
+            List<int> rarity = new List<int>();
 
+            List<List<string>> types = new List<List<string>>();
+            List<List<string>> color = new List<List<string>>();
+            List<List<string>> colorIdentity = new List<List<string>>();
+
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "SELECT ID, mtgCard.name, manacost, converted_manacost, p as 'Power', t as 'Toughness', l as 'Loyalty', rulesText, flavor, artist, generated_mana FROM mtgcard";
             using (IDataReader reader = connector.ExecuteReader(command))
             {
                 while (reader.Read())
                 {
-                    //Card card = new Permanent()
-                    //{
+                    cardIDs.Add(reader.GetInt32(0));
+                    cardNames.Add(reader.GetString(1));
+                    manaCosts.Add(reader.GetString(2));
+                    CMCs.Add(reader.GetInt32(3));
+                    Ps.Add(reader.GetInt32(4));
+                    Ts.Add(reader.GetInt32(5));
+                    Ls.Add(reader.GetInt32(6));
+                    rules.Add(reader.GetString(7));
+                    flavor.Add(reader.GetString(8));
+                    artist.Add(reader.GetString(9));
+                    generatedMana.Add(reader.GetString(10));
+                }
+            }
+            foreach(int i in cardIDs)
+            {
+                List<string> cardtypes = new List<string>();
+                IDbCommand commandGetTypes = connector.CreateCommand();
+                command.CommandText = "SELECT cardType.Name FROM cardTypeCard JOIN cardType ON cardTypeCard.cardType = cardType.id WHERE cardID = " + i;
+                //command.AddParameterWithValue("cardID", i);
+                using (IDataReader reader = connector.ExecuteReader(command))
+                {
+                    
+                    while (reader.Read())
+                    {
+                        cardtypes.Add(reader.GetString(0));
+                    }
+                }
+                types.Add(cardtypes);
 
-                    //};
+                List<string> cardcolors = new List<string>();
+                IDbCommand commandGetColors = connector.CreateCommand();
+                command.CommandText = "SELECT Color.Name FROM cardColor JOIN Color ON cardColor.colorCode = color.Code WHERE cardID = " + i;
+                //command.AddParameterWithValue("cardID2", i);
+                using (IDataReader reader = connector.ExecuteReader(command))
+                {
 
-                    //cards.Add(card);
+                    while (reader.Read())
+                    {
+                        cardcolors.Add(reader.GetString(0));
+                    }
+                }
+                color.Add(cardcolors);
+
+                List<string> cardColorIdentities = new List<string>();
+                IDbCommand commandGetCIs = connector.CreateCommand();
+                command.CommandText = "SELECT Color.Name FROM cardColorIdentity JOIN Color ON cardColorIdentity.colorCode = color.Code WHERE cardID = " + i;
+                //command.AddParameterWithValue("cardID3", i);
+                using (IDataReader reader = connector.ExecuteReader(command))
+                {
+
+                    while (reader.Read())
+                    {
+                        cardColorIdentities.Add(reader.GetString(0));
+                    }
+                }
+                colorIdentity.Add(cardColorIdentities);
+
+                IDbCommand commandGetRarity = connector.CreateCommand();
+                command.CommandText = "SELECT rarity.code FROM cardRarity JOIN rarity ON cardRarity.rarity = rarity.code WHERE cardRarity.cardID = " + i;
+                //command.AddParameterWithValue("cardID4", i);
+                using (IDataReader reader = connector.ExecuteReader(command))
+                {
+                    rarity.Add(1/*reader.GetInt32(0)*/);
                 }
             }
 
+            foreach(int id in cardIDs)
+            {
+                if (types[id - 1] != null && id < 165)
+                {
+                    if (types[id-1].Contains("Artifact") || types[id - 1].Contains("Creature") || types[id - 1].Contains("Enchantment") || types[id - 1].Contains("Land") || types[id - 1].Contains("Planeswalker"))
+                    { //Hier ArgumentOutOfBoundsException, op [164], in een lijst van Count=165, en [164] is gewoon gevuld!
+                        cards.Add(new Permanent(cardIDs[id-1], cardNames[id - 1], color[id - 1], colorIdentity[id - 1], manaCosts[id - 1], CMCs[id], types[id - 1], (Rarity)rarity[id - 1], rules[id], flavor[id - 1], Ps[id - 1], Ts[id - 1], Ls[id - 1]));
+                    }
+                    else
+                    {
+                        if (types[id - 1].Contains("Tribal"))
+                        {
+                            cards.Add(new NonPermanent(cardIDs[id - 1], cardNames[id - 1], color[id - 1], colorIdentity[id], manaCosts[id - 1], CMCs[id - 1], types[id - 1], (Rarity)rarity[id - 1], rules[id - 1], flavor[id - 1], true));
+                        }
+                        else
+                        {
+                            cards.Add(new NonPermanent(cardIDs[id - 1], cardNames[id - 1], color[id - 1], colorIdentity[id], manaCosts[id - 1], CMCs[id - 1], types[id - 1], (Rarity)rarity[id - 1], rules[id - 1], flavor[id - 1], false));
+                        }
+                    }
+                }
+                System.Diagnostics.Debug.Print("hope this works");
+            }
             return cards;
+        }
+
+        public List<Deck> GetAllDecks()
+        {
+            List<Deck> decks = new List<Deck>();
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "SELECT * FROM Deck WHERE active=1";
+            using (IDataReader reader = connector.ExecuteReader(command))
+            {
+                while (reader.Read())
+                {
+                    decks.Add(new Deck(reader.GetInt32(0), reader.GetString(1), reader.GetBoolean(3)));
+                }
+            }
+            return decks;
         }
 
         public Card GetCard(string name)
         {
-            throw new NotImplementedException();
+            foreach(Card card in allcards)
+            {
+                if(name == card.ToString())
+                {
+                    return card;
+                }
+            }
+            throw new NoSuchCardException("No such card found");
         }
 
         public Deck LoadDeck(string name)
         {
-            throw new NotImplementedException();
+            Deck deck = new Deck(name);
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "SELECT * FROM Deck WHERE name = @name AND available = true";
+            command.AddParameterWithValue("name", name);
+            using (IDataReader reader = connector.ExecuteReader(command))
+            {
+                while (reader.Read())
+                {
+                    deck = new Deck(reader.GetString(1));
+                }
+            }
+            return deck;
         }
 
         public void RemoveCardFromDeck(Deck deck, Card card)
         {
-            throw new NotImplementedException();
+            IDbCommand command = connector.CreateCommand();
+            command.CommandText = "DELETE TOP(1) FROM Decklist WHERE deckID = @deck AND cardID = @card;";
+            command.AddParameterWithValue("deck", deck.GetID());
+            command.AddParameterWithValue("card", card.GetID());
+
+            connector.ExecuteNonQuery(command);
         }
 
         public void SaveDeck(Deck deck)
@@ -94,47 +226,163 @@ namespace MTGDeckbuilder.DAL
 
         public List<Card> SearchCardsByColor(string color)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card.GetColors().Contains(color))
+                {
+                    foundCards.Add(card);
+                }
+            }
+            if(foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsbyExclusiveColor(string color)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card.GetColors().Contains(color) && card.GetColors().Count == 1)
+                {
+                    foundCards.Add(card);
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsByFlavorText(string flavortext)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card.GetFlavor().Contains(flavortext))
+                {
+                    foundCards.Add(card);
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsByManaCost(int cost)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card.GetCost() == cost)
+                {
+                    foundCards.Add(card);
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsByName(string name)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card.ToString().Contains(name))
+                {
+                    foundCards.Add(card);
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsByPower(int power)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card is Permanent)
+                {
+                    Permanent p = card as Permanent;
+                    if (p.GetPower() == power)
+                    {
+                        foundCards.Add(card);
+                    }
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsByRarity(Rarity rarity)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card.GetRarity() == rarity)
+                {
+                    foundCards.Add(card);
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsByText(string text)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card.GetRules().Contains(text))
+                {
+                    foundCards.Add(card);
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public List<Card> SearchCardsByToughness(int toughness)
         {
-            throw new NotImplementedException();
+            List<Card> foundCards = new List<Card>();
+            foreach (Card card in allcards)
+            {
+                if (card is Permanent)
+                {
+                    Permanent p = card as Permanent;
+                    if (p.GetToughness() == toughness)
+                    {
+                        foundCards.Add(card);
+                    }
+                }
+            }
+            if (foundCards.Count > 0)
+            {
+                return foundCards;
+            }
+            throw new NoSuchCardException("No such card(s) found");
         }
 
         public void SetComplete(Deck deck, bool set)
