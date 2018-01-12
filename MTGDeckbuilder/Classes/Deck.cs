@@ -31,15 +31,8 @@ namespace MTGDeckbuilder.Classes
             {
                 if(c.ToString() == card.ToString())
                 {
-                    string[] supertype = card.GetCardType().Split('-');
-                    if (supertype[0] == "Basic Land")
-                    {
-                        decklist.Add(card);
-                        store.AddCardToDeck(this, card);
-                        CheckComplete();
-                        return;
-                    }
-                    else if(card.ToString() == "Relentless Rats" || card.ToString() == "Shadowborn Apostle")
+                    string[] type = card.GetCardType().Split(' ');
+                    if (type[0] == "Basic")
                     {
                         decklist.Add(card);
                         store.AddCardToDeck(this, card);

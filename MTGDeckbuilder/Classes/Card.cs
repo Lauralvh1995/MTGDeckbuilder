@@ -19,16 +19,16 @@ namespace MTGDeckbuilder.Classes
     {
         int ID { get; set; }
         string Name { get; set; }
-        string Color { get; set; }
-        string ColorIdentity { get; set; }
+        List<string> Color { get; set; }
+        List<string> ColorIdentity { get; set; }
         string Cost { get; set; }
         int ConvertedManaCost { get; set; }
-        string Type { get; set; }
+        List<string> Type { get; set; }
         Rarity Rarity { get; set; }
         string Text { get; set; }
         string FlavorText { get; set; }
 
-        public Card(int id, string name, string color, string colorIdentity, string cost, int cmc, string type, Rarity rarity, string text, string flavorText)
+        public Card(int id, string name, List<string> color, List<string> colorIdentity, string cost, int cmc, List<string> type, Rarity rarity, string text, string flavorText)
         {
             ID = id;
             Name = name;
@@ -43,7 +43,7 @@ namespace MTGDeckbuilder.Classes
             ConvertedManaCost = cmc;
         }
 
-        public Card(string name, string color, string colorIdentity, string cost, int cmc, string type, Rarity rarity, string text, string flavorText)
+        public Card(string name, List<string> color, List<string> colorIdentity, string cost, int cmc, List<string> type, Rarity rarity, string text, string flavorText)
         {
             Name = name;
             Color = color;
@@ -59,7 +59,12 @@ namespace MTGDeckbuilder.Classes
 
         public string GetCardType()
         {
-            return Type;
+            string type = "";
+            foreach(string t in Type)
+            {
+                type = type + " " + t;
+            }
+            return type;
         }
 
         public override string ToString()
