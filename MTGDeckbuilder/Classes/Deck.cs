@@ -44,8 +44,8 @@ namespace MTGDeckbuilder.Classes
             {
                 if(c.ToString() == card.ToString())
                 {
-                    string[] type = card.GetCardType().Split(' ');
-                    if (type[0] == "Basic")
+
+                    if (c.GetTypes().Contains("Basic"))
                     {
                         decklist.Add(card);
                         store.AddCardToDeck(this, card);

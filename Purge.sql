@@ -1,0 +1,158 @@
+DROP TABLE deckList;
+DROP TABLE deck;
+
+CREATE TABLE deck(
+ID int IDENTITY(1,1) PRIMARY KEY,
+Name nvarchar(255) UNIQUE,
+active bit,
+completed bit
+);
+
+CREATE TABLE deckList(
+ID int IDENTITY(1,1) PRIMARY KEY,
+DeckID int FOREIGN KEY REFERENCES deck(ID),
+CardID int FOREIGN KEY REFERENCES mtgCard(ID)
+);
+
+insert into Deck (name, active, completed) values ('urna', 1, 1);
+insert into Deck (name, active, completed) values ('erat tortor sollicitudin',0,1);
+insert into Deck (name, active, completed) values ('orci vehicula condimentum', 0, 1);
+insert into Deck (name, active, completed) values ('aliquam', 0, 1);
+insert into Deck (name, active, completed) values ('nam dui', 0, 0);
+insert into Deck (name, active, completed) values ('id luctus nec', 0, 1);
+insert into Deck (name, active, completed) values ('interdum mauris', 1, 1);
+insert into Deck (name, active, completed) values ('tortor risus dapibus', 0, 0);
+insert into Deck (name, active, completed) values ('lorem', 0, 1);
+insert into Deck (name, active, completed) values ('mauris enim leo', 0, 0);
+insert into Deck (name, active, completed) values ('erat vestibulum sed', 0, 0);
+insert into Deck (name, active, completed) values ('sollicitudin mi', 1, 1);
+insert into Deck (name, active, completed) values ('pretium iaculis', 1, 1);
+insert into Deck (name, active, completed) values ('auctor sed', 0, 0);
+insert into Deck (name, active, completed) values ('iaculis diam', 1, 1);
+insert into Deck (name, active, completed) values ('nulla pede', 0, 1);
+insert into Deck (name, active, completed) values ('at ipsum', 0, 1);
+insert into Deck (name, active, completed) values ('porttitor lorem', 0, 0);
+insert into Deck (name, active, completed) values ('congue diam', 0, 1);
+insert into Deck (name, active, completed) values ('sit amet', 1, 0);
+
+insert into deckList (deckID, cardID) values (1, 165);
+insert into deckList (deckID, cardID) values (1, 132);
+insert into deckList (deckID, cardID) values (1, 14);
+insert into deckList (deckID, cardID) values (1, 147);
+insert into deckList (deckID, cardID) values (1, 151);
+insert into deckList (deckID, cardID) values (1, 85);
+insert into deckList (deckID, cardID) values (1, 151);
+insert into deckList (deckID, cardID) values (1, 35);
+insert into deckList (deckID, cardID) values (1, 84);
+insert into deckList (deckID, cardID) values (1, 23);
+insert into deckList (deckID, cardID) values (1, 19);
+insert into deckList (deckID, cardID) values (1, 118);
+insert into deckList (deckID, cardID) values (1, 41);
+insert into deckList (deckID, cardID) values (1, 26);
+insert into deckList (deckID, cardID) values (1, 83);
+insert into deckList (deckID, cardID) values (1, 7);
+insert into deckList (deckID, cardID) values (1, 47);
+insert into deckList (deckID, cardID) values (1, 158);
+insert into deckList (deckID, cardID) values (1, 65);
+insert into deckList (deckID, cardID) values (1, 4);
+insert into deckList (deckID, cardID) values (1, 95);
+insert into deckList (deckID, cardID) values (1, 79);
+insert into deckList (deckID, cardID) values (1, 92);
+insert into deckList (deckID, cardID) values (1, 4);
+insert into deckList (deckID, cardID) values (1, 64);
+insert into deckList (deckID, cardID) values (1, 148);
+insert into deckList (deckID, cardID) values (1, 64);
+insert into deckList (deckID, cardID) values (1, 147);
+insert into deckList (deckID, cardID) values (1, 91);
+insert into deckList (deckID, cardID) values (1, 16);
+insert into deckList (deckID, cardID) values (1, 19);
+insert into deckList (deckID, cardID) values (1, 101);
+insert into deckList (deckID, cardID) values (1, 121);
+insert into deckList (deckID, cardID) values (1, 63);
+insert into deckList (deckID, cardID) values (1, 122);
+insert into deckList (deckID, cardID) values (1, 159);
+insert into deckList (deckID, cardID) values (1, 88);
+insert into deckList (deckID, cardID) values (1, 98);
+insert into deckList (deckID, cardID) values (1, 45);
+insert into deckList (deckID, cardID) values (1, 162);
+insert into deckList (deckID, cardID) values (1, 129);
+insert into deckList (deckID, cardID) values (1, 32);
+insert into deckList (deckID, cardID) values (1, 152);
+insert into deckList (deckID, cardID) values (1, 77);
+insert into deckList (deckID, cardID) values (1, 3);
+insert into deckList (deckID, cardID) values (1, 108);
+insert into deckList (deckID, cardID) values (1, 134);
+insert into deckList (deckID, cardID) values (1, 81);
+insert into deckList (deckID, cardID) values (1, 94);
+insert into deckList (deckID, cardID) values (1, 150);
+insert into deckList (deckID, cardID) values (1, 106);
+insert into deckList (deckID, cardID) values (1, 107);
+insert into deckList (deckID, cardID) values (1, 134);
+insert into deckList (deckID, cardID) values (1, 34);
+insert into deckList (deckID, cardID) values (1, 159);
+insert into deckList (deckID, cardID) values (1, 107);
+insert into deckList (deckID, cardID) values (1, 108);
+insert into deckList (deckID, cardID) values (1, 139);
+insert into deckList (deckID, cardID) values (1, 24);
+insert into deckList (deckID, cardID) values (1, 133);
+
+insert into deckList (deckID, cardID) values (2, 107);
+insert into deckList (deckID, cardID) values (2, 3);
+insert into deckList (deckID, cardID) values (2, 89);
+insert into deckList (deckID, cardID) values (2, 4);
+insert into deckList (deckID, cardID) values (2, 137);
+insert into deckList (deckID, cardID) values (2, 7);
+insert into deckList (deckID, cardID) values (2, 9);
+insert into deckList (deckID, cardID) values (2, 83);
+insert into deckList (deckID, cardID) values (2, 156);
+insert into deckList (deckID, cardID) values (2, 47);
+insert into deckList (deckID, cardID) values (2, 150);
+insert into deckList (deckID, cardID) values (2, 63);
+insert into deckList (deckID, cardID) values (2, 148);
+insert into deckList (deckID, cardID) values (2, 159);
+insert into deckList (deckID, cardID) values (2, 95);
+insert into deckList (deckID, cardID) values (2, 31);
+insert into deckList (deckID, cardID) values (2, 74);
+insert into deckList (deckID, cardID) values (2, 44);
+insert into deckList (deckID, cardID) values (2, 103);
+insert into deckList (deckID, cardID) values (2, 107);
+insert into deckList (deckID, cardID) values (2, 81);
+insert into deckList (deckID, cardID) values (2, 68);
+insert into deckList (deckID, cardID) values (2, 25);
+insert into deckList (deckID, cardID) values (2, 99);
+insert into deckList (deckID, cardID) values (2, 84);
+insert into deckList (deckID, cardID) values (2, 91);
+insert into deckList (deckID, cardID) values (2, 34);
+insert into deckList (deckID, cardID) values (2, 19);
+insert into deckList (deckID, cardID) values (2, 80);
+insert into deckList (deckID, cardID) values (2, 124);
+insert into deckList (deckID, cardID) values (2, 63);
+insert into deckList (deckID, cardID) values (2, 57);
+insert into deckList (deckID, cardID) values (2, 78);
+insert into deckList (deckID, cardID) values (2, 150);
+insert into deckList (deckID, cardID) values (2, 87);
+insert into deckList (deckID, cardID) values (2, 43);
+insert into deckList (deckID, cardID) values (2, 157);
+insert into deckList (deckID, cardID) values (2, 131);
+insert into deckList (deckID, cardID) values (2, 147);
+insert into deckList (deckID, cardID) values (2, 161);
+insert into deckList (deckID, cardID) values (2, 88);
+insert into deckList (deckID, cardID) values (2, 23);
+insert into deckList (deckID, cardID) values (2, 109);
+insert into deckList (deckID, cardID) values (2, 149);
+insert into deckList (deckID, cardID) values (2, 90);
+insert into deckList (deckID, cardID) values (2, 108);
+insert into deckList (deckID, cardID) values (2, 63);
+insert into deckList (deckID, cardID) values (2, 88);
+insert into deckList (deckID, cardID) values (2, 104);
+insert into deckList (deckID, cardID) values (2, 94);
+insert into deckList (deckID, cardID) values (2, 6);
+insert into deckList (deckID, cardID) values (2, 8);
+insert into deckList (deckID, cardID) values (2, 98);
+insert into deckList (deckID, cardID) values (2, 122);
+insert into deckList (deckID, cardID) values (2, 116);
+insert into deckList (deckID, cardID) values (2, 51);
+insert into deckList (deckID, cardID) values (2, 126);
+insert into deckList (deckID, cardID) values (2, 67);
+insert into deckList (deckID, cardID) values (2, 139);
+insert into deckList (deckID, cardID) values (2, 90);

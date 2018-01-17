@@ -22,6 +22,10 @@ namespace MTGDeckbuilder.Classes
             decks = new List<Deck>();
             searchedCards = allCards;
             CreateDeck("dummy");
+            CreateDeck("dummy2");
+
+            decks[0].AddCard(store.GetCard("Forest"));
+            decks[1].AddCard(store.GetCard("Swamp"));
         }
 
         public void CreateDeck(string name)

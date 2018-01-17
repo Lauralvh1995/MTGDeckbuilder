@@ -423,7 +423,7 @@ namespace MTGDeckbuilder.DAL
         public void SetComplete(Deck deck, bool set)
         {
             IDbCommand command = connector.CreateCommand();
-            command.CommandText = "UPDATE [DECK] SET [Complete]=@complete WHERE [ID]=@id;";
+            command.CommandText = "UPDATE [DECK] SET [Completed]=@complete WHERE [ID]=@id;";
             command.AddParameterWithValue("complete", set);
             command.AddParameterWithValue("id", deck.GetID());
 

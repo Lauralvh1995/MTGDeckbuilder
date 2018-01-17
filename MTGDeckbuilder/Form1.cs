@@ -22,43 +22,44 @@ namespace MTGDeckbuilder
         BindingList<Card> allcards;
         BindingList<Deck> alldecks;
         BindingList<Card> decklist;
+
         public MTGDeckbuilder()
         {
             InitializeComponent();
             control = new Controller();
-            allcards = new BindingList<Card>(control.allCards);
-            alldecks = new BindingList<Deck>(control.decks);
-            decklist = new BindingList<Card>(control.CurrentDeck.GetDeckList());
-
-            liBoxAllCards.DataSource = allcards;
-            liBoxAllDecks.DataSource = alldecks;
-            liBoxDecklist.DataSource = decklist;
-
+            allcards = new BindingList<Card>();
+            alldecks = new BindingList<Deck>();
+            decklist = new BindingList<Card>();
+            
             Redraw();
+
+            selectedCard = liBoxAllCards.SelectedItem as Card;
+            selectedDeck = liBoxAllDecks.SelectedItem as Deck;
+            
         }
 
         private void btAddCard_Click(object sender, EventArgs e)
         {
             control.CurrentDeck.AddCard(selectedCard);
-            Redraw();
+            UpdateDecklist();
         }
 
         private void btRemoveCard_Click(object sender, EventArgs e)
         {
             control.CurrentDeck.RemoveCard(selectedDeckCard);
-            Redraw();
+            UpdateDecklist();
         }
 
         private void btDeleteDeck_Click(object sender, EventArgs e)
         {
-            control.DeleteDeck(control.decks[liBoxDecklist.SelectedIndex].ToString());
-            Redraw();
+            control.DeleteDeck(selectedDeck.ToString());
+            UpdateAllDecks();
         }
 
         private void btNewDeck_Click(object sender, EventArgs e)
         {
             CreateDeckButton();
-            Redraw();
+            UpdateAllDecks();
         }
 
         private void btSaveDeck_Click(object sender, EventArgs e)
@@ -69,18 +70,19 @@ namespace MTGDeckbuilder
 
         private void liBoxAllDecks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedDeck = control.decks[liBoxDecklist.SelectedIndex];
-            control.CurrentDeck = control.decks[liBoxDecklist.SelectedIndex];
+            selectedDeck = liBoxAllDecks.SelectedItem as Deck;
+            control.CurrentDeck = liBoxAllDecks.SelectedItem as Deck;
+            UpdateDecklist();
         }
 
         private void liBoxDecklist_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedDeckCard = control.CurrentDeck.GetDeckList()[liBoxDecklist.SelectedIndex];
+            selectedDeckCard = liBoxDecklist.SelectedItem as Card;
         }
 
         private void liBoxAllCards_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedCard = control.searchedCards[liBoxAllCards.SelectedIndex];
+            selectedCard = liBoxAllCards.SelectedItem as Card;
         }
 
         public void CreateDeckButton()
@@ -94,17 +96,36 @@ namespace MTGDeckbuilder
             {
                 control.CreateDeck(name);
             }
-            Redraw();
         }
 
         public void Redraw()
         {
-            liBoxAllCards.Hide();
-            liBoxAllDecks.Hide();
-            liBoxDecklist.Hide();
-            liBoxAllCards.Show();
-            liBoxAllDecks.Show();
-            liBoxDecklist.Show();
+            allcards = new BindingList<Card>(control.searchedCards);
+            alldecks = new BindingList<Deck>(control.decks);
+            decklist = new BindingList<Card>(control.CurrentDeck.GetDeckList());
+
+            liBoxAllCards.DataSource = null;
+            liBoxAllDecks.DataSource = null;
+            liBoxDecklist.DataSource = null;
+            liBoxAllCards.DataSource = allcards;
+            liBoxAllDecks.DataSource = alldecks;
+            liBoxDecklist.DataSource = decklist;
+        }
+
+        public void UpdateDecklist()
+        {
+            decklist = new BindingList<Card>(control.CurrentDeck.GetDeckList());
+            liBoxDecklist.DataSource = null;
+            liBoxDecklist.DataSource = decklist;
+        }
+
+        public void UpdateAllDecks()
+        {
+            alldecks = new BindingList<Deck>(control.decks);
+            liBoxAllDecks.DataSource = null;
+            liBoxAllDecks.DataSource = alldecks;
+            //liBoxAllDecks.Hide();
+            //liBoxAllDecks.Show();
         }
     }
 }
