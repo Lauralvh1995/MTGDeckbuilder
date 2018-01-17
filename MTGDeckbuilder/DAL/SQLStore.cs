@@ -201,7 +201,10 @@ namespace MTGDeckbuilder.DAL
             {
                 foreach (string st in cardnames[i2])
                 {
-                    decks[i2].GetDeckList().Add(GetCard(st));
+                    if (cardnames[i2].Count != 0)
+                    {
+                        decks[i2].GetDeckList().Add(GetCard(st));
+                    }
                 }
             }
             return decks;
