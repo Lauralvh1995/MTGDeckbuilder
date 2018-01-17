@@ -18,47 +18,59 @@ namespace MTGDeckbuilder
         Card selectedCard;
         Card selectedDeckCard;
         Deck selectedDeck;
+
+        BindingList<Card> allcards;
+        BindingList<Deck> alldecks;
+        BindingList<Card> decklist;
         public MTGDeckbuilder()
         {
             InitializeComponent();
             control = new Controller();
-            liBoxAllCards.DataSource = new BindingList<Card>(control.allCards);
-            liBoxAllDecks.DataSource = new BindingList<Deck>(control.decks);
-            liBoxDecklist.DataSource = new BindingList<Card>(control.CurrentDeck.GetDeckList());
-            Refresh();
+            allcards = new BindingList<Card>(control.allCards);
+            alldecks = new BindingList<Deck>(control.decks);
+            decklist = new BindingList<Card>(control.CurrentDeck.GetDeckList());
+
+            liBoxAllCards.DataSource = allcards;
+            liBoxAllDecks.DataSource = alldecks;
+            liBoxDecklist.DataSource = decklist;
+
+            Redraw();
         }
 
         private void btAddCard_Click(object sender, EventArgs e)
         {
             control.CurrentDeck.AddCard(selectedCard);
-            liBoxDecklist.Refresh();
+            Redraw();
         }
 
         private void btRemoveCard_Click(object sender, EventArgs e)
         {
             control.CurrentDeck.RemoveCard(selectedDeckCard);
-            liBoxDecklist.Refresh();
+            Redraw();
         }
 
         private void btDeleteDeck_Click(object sender, EventArgs e)
         {
-            control.DeleteDeck(control.LoadAllDecks()[liBoxDecklist.SelectedIndex].ToString());
+            control.DeleteDeck(control.decks[liBoxDecklist.SelectedIndex].ToString());
+            Redraw();
         }
 
         private void btNewDeck_Click(object sender, EventArgs e)
         {
             CreateDeckButton();
+            Redraw();
         }
 
         private void btSaveDeck_Click(object sender, EventArgs e)
         {
             control.SaveDeck();
+            Redraw();
         }
 
         private void liBoxAllDecks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            selectedDeck = control.LoadAllDecks()[liBoxDecklist.SelectedIndex];
-            control.CurrentDeck = control.LoadAllDecks()[liBoxDecklist.SelectedIndex];
+            selectedDeck = control.decks[liBoxDecklist.SelectedIndex];
+            control.CurrentDeck = control.decks[liBoxDecklist.SelectedIndex];
         }
 
         private void liBoxDecklist_SelectedIndexChanged(object sender, EventArgs e)
@@ -82,7 +94,17 @@ namespace MTGDeckbuilder
             {
                 control.CreateDeck(name);
             }
-            liBoxAllDecks.Refresh();
+            Redraw();
+        }
+
+        public void Redraw()
+        {
+            liBoxAllCards.Hide();
+            liBoxAllDecks.Hide();
+            liBoxDecklist.Hide();
+            liBoxAllCards.Show();
+            liBoxAllDecks.Show();
+            liBoxDecklist.Show();
         }
     }
 }

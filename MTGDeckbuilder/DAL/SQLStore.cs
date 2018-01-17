@@ -25,7 +25,7 @@ namespace MTGDeckbuilder.DAL
         public void AddCardToDeck(Deck deck, Card card)
         {
             IDbCommand command = connector.CreateCommand();
-            command.CommandText = "INSERT INTO [deckList] ([deckID], [cardID]) VALUES (@deck, @card);";
+            command.CommandText = "INSERT INTO deckList (deckID, cardID) VALUES (@deck, @card);";
             command.AddParameterWithValue("deck", deck.GetID());
             command.AddParameterWithValue("card", card.GetID());
 
@@ -35,7 +35,7 @@ namespace MTGDeckbuilder.DAL
         public void DeleteDeck(Deck deck)
         {
             IDbCommand command = connector.CreateCommand();
-            command.CommandText = "UPDATE [DECK] SET [Active]=@active WHERE [ID]=@id;";
+            command.CommandText = "UPDATE Deck SET active=@active WHERE ID=@id;";
             command.AddParameterWithValue("active", false);
             command.AddParameterWithValue("id", deck.GetID());
 
@@ -226,13 +226,13 @@ namespace MTGDeckbuilder.DAL
         {
             Deck deck = new Deck(name);
             IDbCommand command = connector.CreateCommand();
-            command.CommandText = "SELECT * FROM Deck WHERE name = @name AND available = true";
+            command.CommandText = "SELECT * FROM Deck WHERE name = @name AND active = 1";
             command.AddParameterWithValue("name", name);
             using (IDataReader reader = connector.ExecuteReader(command))
             {
                 while (reader.Read())
                 {
-                    deck = new Deck(reader.GetString(1));
+                    deck = new Deck(reader.GetInt32(0),reader.GetString(1),reader.GetBoolean(3));
                 }
             }
             return deck;
@@ -241,14 +241,14 @@ namespace MTGDeckbuilder.DAL
         public void RemoveCardFromDeck(Deck deck, Card card)
         {
             IDbCommand command = connector.CreateCommand();
-            command.CommandText = "DELETE TOP(1) FROM Decklist WHERE deckID = @deck AND cardID = @card;";
-            command.AddParameterWithValue("deck", deck.GetID());
-            command.AddParameterWithValue("card", card.GetID());
+            command.CommandText = "DELETE TOP(1) FROM Decklist WHERE deckID = @deckID AND cardID = @cardID;";
+            command.AddParameterWithValue("deckID", deck.GetID());
+            command.AddParameterWithValue("cardID", card.GetID());
 
             connector.ExecuteNonQuery(command);
         }
 
-        public void SaveDeck(Deck deck)
+        public void InsertDeck(Deck deck)
         {
             IDbCommand command = connector.CreateCommand();
             command.CommandText = "INSERT INTO [Deck] (name, active, completed) VALUES (@deck, @active, @complete);";

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MTGDeckbuilder.Classes;
+using MTGDeckbuilder.DAL;
 
 namespace MTGTestProject
 {
@@ -11,9 +12,10 @@ namespace MTGTestProject
         public void TestCreateDeck()
         {
             Controller control = new Controller();
+            IStore store = new SQLStore();
             control.CreateDeck("Test");
-            Assert.AreEqual("Test", control.decks[6].ToString());
-            Assert.AreEqual(control.decks[6], control.CurrentDeck);
+            Assert.AreEqual("Test", control.CurrentDeck.ToString());
+            Assert.AreEqual(store.LoadDeck(control.CurrentDeck.ToString()), control.CurrentDeck);
         }
 
         [TestMethod]
@@ -22,7 +24,7 @@ namespace MTGTestProject
             Controller control = new Controller();
             control.CreateDeck("Test2");
             control.DeleteDeck("Test2");
-            Assert.AreEqual(7, control.decks.Count);
+            Assert.AreEqual(0, control.decks.Count);
         }
     }
 }

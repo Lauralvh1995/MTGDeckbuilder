@@ -23,7 +23,7 @@ namespace MTGDeckbuilder.DAL
         List<Card> FetchAllCards();
 
         //Decks
-        void SaveDeck(Deck deck);
+        void InsertDeck(Deck deck);
         Deck LoadDeck(string name);
         void DeleteDeck(Deck deck);
         void AddCardToDeck(Deck deck, Card card);

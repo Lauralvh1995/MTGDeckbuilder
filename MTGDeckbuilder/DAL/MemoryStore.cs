@@ -48,7 +48,7 @@ namespace MTGDeckbuilder.DAL
             throw new NotImplementedException();
         }
 
-        public void SaveDeck(Deck deck)
+        public void InsertDeck(Deck deck)
         {
             throw new NotImplementedException();
         }

@@ -73,6 +73,7 @@ namespace MTGDeckbuilder.Classes
                 if(c == card)
                 {
                     decklist.Remove(c);
+                    store.RemoveCardFromDeck(this, c);
                     return;
                 }
             }
@@ -92,7 +93,7 @@ namespace MTGDeckbuilder.Classes
             return decklist;
         }
 
-        void CheckComplete()
+        public bool CheckComplete()
         {
             if(decklist.Count >= 60)
             {
@@ -102,6 +103,8 @@ namespace MTGDeckbuilder.Classes
             {
                 Complete = false;
             }
+
+            return Complete;
         }
 
         public override string ToString()

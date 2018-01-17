@@ -29,6 +29,8 @@ namespace MTGDeckbuilder.Classes
             Deck deck = new Deck(name);
             CurrentDeck = deck;
             SaveDeck();
+            CurrentDeck = store.LoadDeck(deck.ToString());
+            decks.Add(CurrentDeck);
         }
 
         public void SaveDeck()
@@ -44,12 +46,12 @@ namespace MTGDeckbuilder.Classes
 
             if (check == 0)
             {
-                decks.Add(CurrentDeck);
-                store.SaveDeck(CurrentDeck);
+                
+                store.InsertDeck(CurrentDeck);
             }
             else
             {
-                store.SaveDeck(CurrentDeck);
+                store.SetComplete(CurrentDeck, CurrentDeck.CheckComplete());
             }
         }
 
@@ -60,7 +62,14 @@ namespace MTGDeckbuilder.Classes
 
         public List<Deck> LoadAllDecks()
         {
-            return store.GetAllDecks();
+            if (decks.Count == 0)
+            {
+                return store.GetAllDecks();
+            }
+            else
+            {
+                return decks;
+            }
         }
 
         public void DeleteDeck(string name)
