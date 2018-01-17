@@ -110,6 +110,11 @@ namespace MTGDeckbuilder
             liBoxAllCards.DataSource = allcards;
             liBoxAllDecks.DataSource = alldecks;
             liBoxDecklist.DataSource = decklist;
+
+            foreach(Deck d in liBoxAllDecks.Items)
+            {
+                Console.WriteLine(d.ToString());
+            }
         }
 
         public void UpdateDecklist()
@@ -124,6 +129,7 @@ namespace MTGDeckbuilder
             alldecks = new BindingList<Deck>(control.decks);
             liBoxAllDecks.DataSource = null;
             liBoxAllDecks.DataSource = alldecks;
+            //liBoxAllDecks.Refresh();
             //liBoxAllDecks.Hide();
             //liBoxAllDecks.Show();
         }
